@@ -8,11 +8,12 @@ export const CustomerCreateValidation = celebrate({
     contactFirstName: Joi.string().required(),
     phone: Joi.string().required(),
     addressLine1: Joi.string().required(),
-    addressLine2: Joi.string().required(),
+    addressLine2: Joi.string().allow(null),
     city: Joi.string().required(),
-    state: Joi.string().required(),
+    state: Joi.string().allow(null),
     postalCode: Joi.string().required(),
     country: Joi.string().required(),
+    SalesRepEmployeeNumber: Joi.string().required(),
     creditLimit: Joi.number().required(),
   }),
 });
@@ -31,6 +32,7 @@ export const CustomerUpdateValidation = celebrate({
       state: Joi.string(),
       postalCode: Joi.string(),
       country: Joi.string(),
+      SalesRepEmployeeNumber: Joi.string(),
       creditLimit: Joi.number(),
     })
     .min(1),

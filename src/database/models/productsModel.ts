@@ -4,12 +4,13 @@ import { sequelize } from "../sequelize";
 export interface productsAttributes {
     productCode:string,
     productName:string,
+    productLine: string,
     productScale:string,
     productVendor:string,
     productDescription:string,
-    quantityInStock:string,
-    buyPrice:string,
-    MSRP:string,
+    quantityInStock:number,
+    buyPrice:number,
+    MSRP:number,
 }
 
 export interface productsInput extends Optional<productsAttributes, "productCode"> {}
@@ -18,24 +19,26 @@ export interface productsOutput extends Required<productsAttributes> {}
 class products extends Model<productsAttributes, productsInput> {
     declare productCode: string;
     declare productName: string;
+    declare productLine: string;
     declare productScale: string;
     declare productVendor: string;
     declare productDescription: string;
-    declare quantityInStock: string;
-    declare buyPrice: string;
-    declare MSRP: string;
+    declare quantityInStock: number;
+    declare buyPrice: number;
+    declare MSRP: number;
 }
 
 products.init(
   {
-    productCode: {type: DataTypes.STRING, primaryKey: true, autoIncrement: true},
-    productName: {type: DataTypes.STRING},
-    productScale: {type: DataTypes.STRING},
-    productVendor: {type: DataTypes.STRING},
-    productDescription: {type: DataTypes.STRING},
-    quantityInStock: {type: DataTypes.STRING},
-    buyPrice: {type: DataTypes.STRING},
-    MSRP: {type: DataTypes.STRING},
+    productCode: {type: DataTypes.STRING(15), primaryKey: true, autoIncrement: true},
+    productName: {type: DataTypes.STRING(70), allowNull: false},
+    productLine: {type: DataTypes.STRING(50), allowNull: false},
+    productScale: {type: DataTypes.STRING(10), allowNull: false},
+    productVendor: {type: DataTypes.STRING(50), allowNull: false},
+    productDescription: {type: DataTypes.TEXT, allowNull: false},
+    quantityInStock: {type: DataTypes.SMALLINT, allowNull: false},
+    buyPrice: {type: DataTypes.DECIMAL(10,2), allowNull: false},
+    MSRP: {type: DataTypes.DECIMAL(10,2), allowNull: false},
   },
   {
     sequelize,

@@ -1,36 +1,40 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../sequelize";
+import Customer from "../models/customerModel";
 
 export interface orderAttributes {
-  orderNumber: string;
-  orderDate: string;
-  requiredDate: string;
-  shippedDate: string;
+  orderNumber: number;
+  orderDate: Date;
+  requiredDate: Date;
+  shippedDate?: Date;
   status: string;
-  comments: string;
+  comments?: string;
+  customerNumber: number;
 }
 
 export interface orderInput extends Optional<orderAttributes, "orderNumber"> {}
 export interface orderOutput extends Required<orderAttributes> {}
 
-class order extends Model<orderAttributes, orderInput> {
- declare orderNumber: string;
- declare orderDate: string;
- declare requiredDate: string;
- declare shippedDate: string;
+class Order extends Model<orderAttributes, orderInput> {
+ declare orderNumber: number;
+ declare orderDate: Date;
+ declare requiredDate: Date;
+ declare shippedDate: Date;
  declare status: string;
  declare comments: string;
+ declare customerNumber: number;
 }
 
-order.init(
+Order.init(
 
   {
-    orderNumber:{type: DataTypes.STRING , primaryKey: true, autoIncrement: true},
-    orderDate: {type: DataTypes.STRING},
-    requiredDate:{type: DataTypes.STRING},
-    shippedDate:{type: DataTypes.STRING},
-    status:{type: DataTypes.STRING},
-    comments:{type: DataTypes.STRING},
+    orderNumber:{type: DataTypes.INTEGER , primaryKey: true, autoIncrement: true},
+    orderDate: {type: DataTypes.DATE, allowNull: false},
+    requiredDate:{type: DataTypes.DATE, allowNull: false},
+    shippedDate:{type: DataTypes.DATE},
+    status:{type: DataTypes.STRING(15), allowNull: false},
+    comments:{type: DataTypes.TEXT},
+    customerNumber: {type: DataTypes.INTEGER, allowNull: false}
   },
   {
     sequelize,
@@ -38,4 +42,7 @@ order.init(
   }
 );
 
-export default order;
+Customer.hasMany(Order, {foreignKey: 'customerNumber'});
+Order.belongsTo(Customer, {foreignKey: 'customerNumber'});
+
+export default Order;

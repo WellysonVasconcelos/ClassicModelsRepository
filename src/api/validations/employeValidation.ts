@@ -7,6 +7,8 @@ export const EmployeCreateValidation = celebrate({
     firstName: Joi.string().required(),
     extension: Joi.string().required(),
     email: Joi.string().required(),
+    officeCode: Joi.string().required(),
+    reportsTo: Joi.string().required(),
     jobTitle: Joi.string().required(),
   }),
 });
@@ -19,6 +21,8 @@ export const EmployeUpdateValidation = celebrate({
       firstName: Joi.string(),
       extension: Joi.string(),
       email: Joi.string(),
+      officeCode: Joi.string(),
+      reportsTo: Joi.string(),
       jobTitle: Joi.string(),
     })
     .min(1),

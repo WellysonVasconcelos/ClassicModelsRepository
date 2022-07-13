@@ -20,4 +20,5 @@ export default () => {
     .catch((error: Error) => {
       console.log(`Conexão não sucecedida:${error}`);
     });
+    sequelize.sync( {alter: true} );
 };

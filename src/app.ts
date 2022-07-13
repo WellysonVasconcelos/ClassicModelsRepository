@@ -6,6 +6,7 @@ import { errors } from 'celebrate';
 import routes from "./api/routes/index";
 import sequelize from "./database/sequelize";
 import AppError from "./utils/appError";
+import { initdb } from "./database/initdb";
 
 const app: Express = express();
 const porta: Number = 4040;
@@ -39,3 +40,4 @@ app.listen(porta, () => {
 });
 
 sequelize();
+initdb();
