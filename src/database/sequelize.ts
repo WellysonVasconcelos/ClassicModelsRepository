@@ -5,14 +5,16 @@ export const sequelize = new Sequelize("classicmodels", "root", "lorena25", {
     dialect: "mysql",
     define: {
       freezeTableName: true,
-      timestamps: false
+      // timestamps: false
+      createdAt: false,
+      updatedAt: false
     },
     logging: false
   });
 
-export default () => {
+export default async () => {
 
-  sequelize
+  await sequelize
     .authenticate()
     .then(() => {
       console.log("Conexão realizada com sucesso");
@@ -20,5 +22,4 @@ export default () => {
     .catch((error: Error) => {
       console.log(`Conexão não sucecedida:${error}`);
     });
-    sequelize.sync( {alter: true} );
-};
+  }

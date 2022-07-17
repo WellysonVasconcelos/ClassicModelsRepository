@@ -48,9 +48,8 @@ Office.init(
   {
     sequelize,
     modelName: "offices",
+    paranoid: true
   }
 );
-Employee.hasMany(Office, {foreignKey: 'officeCode'});
-Office.belongsTo(Employee, {foreignKey: 'officeCode'});
 
 export default Office;

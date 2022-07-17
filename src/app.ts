@@ -39,5 +39,6 @@ app.listen(porta, () => {
   console.log(`Este app está funcionando através da porta ${porta}`);
 });
 
-sequelize();
-initdb();
+(async () => {
+  await initdb();
+})();

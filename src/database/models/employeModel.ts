@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../sequelize";
 import Customer from "./customerModel";
+import Office from "./officeModel";
 
 export interface EmployeeAttributes {
   employeeNumber: number;
@@ -8,12 +9,13 @@ export interface EmployeeAttributes {
   firstName: string;
   extension: string;
   email: string;
-  officeCode:string;
+  officeCode: string;
   reportsTo?: number;
   jobTitle: string;
 }
 
-export interface EmployeeInput extends Optional<EmployeeAttributes, "employeeNumber"> {}
+export interface EmployeeInput
+  extends Optional<EmployeeAttributes, "employeeNumber"> {}
 export interface EmployeeOutput extends Required<EmployeeAttributes> {}
 
 class Employee extends Model<EmployeeAttributes, EmployeeInput> {
@@ -38,8 +40,8 @@ Employee.init(
     firstName: { type: DataTypes.STRING(50), allowNull: false },
     extension: { type: DataTypes.STRING(10), allowNull: false },
     email: { type: DataTypes.STRING(100), allowNull: false },
-    officeCode: {type: DataTypes.STRING(10), allowNull: false},
-    reportsTo: {type: DataTypes.INTEGER},
+    officeCode: { type: DataTypes.STRING(10), allowNull: false },
+    reportsTo: { type: DataTypes.INTEGER },
     jobTitle: { type: DataTypes.STRING(50), allowNull: false },
   },
   {
@@ -47,7 +49,7 @@ Employee.init(
     modelName: "employees",
   }
 );
-Customer.hasMany(Employee, {foreignKey: 'salesRepEmployeeNumber'});
-Employee.belongsTo(Customer, {foreignKey: 'employeeNumber'});
+Office.hasMany(Employee, {foreignKey: 'officeCode'});
+Employee.belongsTo(Office, {foreignKey: 'officeCode'});
 
 export default Employee;

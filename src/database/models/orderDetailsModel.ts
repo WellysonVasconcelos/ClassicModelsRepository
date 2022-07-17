@@ -1,42 +1,52 @@
-import { DataTypes, Model, Optional } from "sequelize";
-import { sequelize } from "../sequelize";
-import Order from "./orderModels";
-import products from "./productsModel";
+import { DataTypes, Model, Optional } from 'sequelize'
+import { sequelize } from '../sequelize'
+import Orders from './orderModels'
+import Products from './productsModel'
 
-export interface orderDetailsAttributes {
-  orderNumber: number;
-  productCode: string;
-  quantityOrdered: number;
-  priceEach: number;
-  orderLineNumber: number;
+interface OrdersDetailsAttributes {
+    orderNumber: number
+    productCode: string
+    quantityOrdered: string
+    priceEach: string
+    orderLineNumber: string
 }
 
-export interface orderDetailsInput extends Optional<orderDetailsAttributes, "orderNumber"> {}
-export interface orderDetailsOutput extends Required<orderDetailsAttributes> {}
+export interface OrdersDetailsInput
+    extends Optional<OrdersDetailsAttributes, 'orderNumber'> {}
+export interface OrdersDetailsOutput
+    extends Required<OrdersDetailsAttributes> {}
 
-class orderDetails extends Model<orderDetailsAttributes, orderDetailsInput> {
- declare orderNumber: number;
- declare productCode: string;
- declare quantityOrdered: number;
- declare priceEach: number;
- declare orderLineNumber: number;
+class OrdersDetails extends Model<OrdersDetailsAttributes, OrdersDetailsInput> {
+    declare orderNumber: number
+    declare productCode: string
+    declare quantityOrdered: string
+    declare priceEach: string
+    declare orderLineNumber: string
 }
 
-orderDetails.init(
+OrdersDetails.init(
+    {
+        orderNumber: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: { model: Orders, key: 'orderNumber'},
+        },
+        productCode: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+            references: { model: Products, key: 'productCode'},
+        },
+        quantityOrdered: { type: DataTypes.INTEGER, allowNull: false },
+        priceEach: { type: DataTypes.DECIMAL(10,2), allowNull:false },
+        orderLineNumber: { type: DataTypes.SMALLINT, allowNull:false },
+    }, {
+        sequelize,
+        modelName: 'orderdetails',
+    }
+)
+OrdersDetails.removeAttribute('id')
 
-  {
-    orderNumber:{type: DataTypes.INTEGER , primaryKey: true, autoIncrement: true},
-    productCode: {type: DataTypes.STRING(15), allowNull: false},
-    quantityOrdered:{type: DataTypes.INTEGER, allowNull: false},
-    priceEach:{type: DataTypes.DECIMAL(10,2), allowNull: false},
-    orderLineNumber:{type: DataTypes.SMALLINT, allowNull: false},
-  },
-  {
-    sequelize,
-    modelName: "ordersDetails",
-  }
-);
-Order.belongsToMany(products, {foreignKey: 'orderNumber', through: orderDetails});
-products.belongsToMany(Order, {foreignKey: 'productCode', through: orderDetails});
+Orders.belongsToMany(Products, { foreignKey: 'orderNumber', through: OrdersDetails })
+Products.belongsToMany(Orders, { foreignKey: 'productCode', through: OrdersDetails })
 
-export default orderDetails;
+export default OrdersDetails

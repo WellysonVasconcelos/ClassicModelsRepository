@@ -35,7 +35,5 @@ productLine.init(
     modelName: "productlines",
   }
 );
-products.hasMany(productLine, {foreignKey: 'productLine'});
-productLine.belongsTo(products, {foreignKey: 'productLine'});
 
 export default productLine;

@@ -39,6 +39,7 @@ Order.init(
   {
     sequelize,
     modelName: "orders",
+    paranoid: true
   }
 );
 
