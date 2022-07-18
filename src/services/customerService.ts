@@ -6,7 +6,7 @@ import * as repository from "../database/repositories/customerRepositorie";
 import { Query } from "../shared/types/query";
 
 export const getAll = async (customerName:string,limitMax:string, limitMin:string, creditLimit:string, query: Query): Promise<{rows:CustomerOutput[], count: number}> => {
-  return await repository.getAll(customerName, limitMax, limitMin,  query);
+  return await repository.getAll(customerName, limitMax, limitMin,creditLimit,  query);
 };
 export const getById = async (id: number): Promise<CustomerOutput> => {
   return await repository.getById(id);

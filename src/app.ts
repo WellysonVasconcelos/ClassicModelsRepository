@@ -13,6 +13,8 @@ const porta: Number = 4040;
 
 app.use(bodyParser.json());
 
+
+
 app.use("/api/v1", routes);
 
 app.get("/", (req: Request, res: Response) => {

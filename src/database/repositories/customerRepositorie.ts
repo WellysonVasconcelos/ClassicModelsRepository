@@ -5,6 +5,7 @@ import { getPagination } from "../../utils/getPagination";
 import Model, { CustomerInput, CustomerOutput } from "../models/customerModel";
 
 export const getAll = async (
+  creditLimit:string,
   customerName: string,
   limitMin: string,
   limitMax: string,
@@ -16,13 +17,13 @@ export const getAll = async (
 
   const id = "customerNumber";
   const { ...pagination } = getPagination(id, query);
-
-  if (!customerName) customerName = "";
+ 
+  if (!customerName) customerName = " ";
 
   return await Model.findAndCountAll({
     where: {
-      customerName: { [Op.like]: `${customerName}` },
-      creditLimit: { [Op.between]: [limitMin, limitMax] },
+      customerName: { [Op.like]: `%${customerName}` },
+      creditLimit: { [Op.between]: [creditMin, creditMax] },
 
       ...filters,
     },

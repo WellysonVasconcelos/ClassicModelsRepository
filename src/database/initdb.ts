@@ -7,11 +7,13 @@ import sequelize from "../database/sequelize";
 import productLine from "./models/productLineModel";
 import products from "./models/productsModel";
 import payments from "./models/paymentsModel";
+import User from "./models/userModel";
 
 export const initdb = async () => {
   await Promise.all([
     await sequelize(),
     console.log("sincronizando as tabelas"),
+    await User.sync({alter:true}),
     await Customer.sync({ alter: true }),
     await Employee.sync({ alter: true }),
     await Office.sync({ alter: true }),
