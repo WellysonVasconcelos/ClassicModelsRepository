@@ -47,6 +47,7 @@ Employee.init(
   {
     sequelize,
     modelName: "employees",
+    paranoid: true
   }
 );
 Office.hasMany(Employee, {foreignKey: 'officeCode'});

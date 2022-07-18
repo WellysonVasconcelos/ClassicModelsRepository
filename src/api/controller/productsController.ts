@@ -2,13 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import * as service from "../../services/productsService";
 
 export const getAll = async (req: Request, res: Response) => {
-  res.send(await service.getAll());
+  const { qntdMin, qntdMax } = req.query;
+  res.send(await service.getAll(qntdMin as string, qntdMax as string));
 };
 export const getById = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {res.send(await service.getById(req.params.id));}
+) => {
+  res.send(await service.getById(req.params.id));
+};
 
 export const create = async (req: Request, res: Response) => {
   res.status(201).send(await service.create(req.body));

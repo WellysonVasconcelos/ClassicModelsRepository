@@ -30,6 +30,7 @@ payments.init(
   {
     sequelize,
     modelName: "payments",
+    paranoid: true
   }
 );
 payments.removeAttribute("id")

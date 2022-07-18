@@ -2,11 +2,17 @@ import AppError from "../../utils/appError";
 import Model, { EmployeeInput, EmployeeOutput } from "../models/employeModel";
 
 export const getAll = async (): Promise<EmployeeOutput[]> => {
-    return await Model.findAll();
+    return await Model.findAll({
+        include: {all: true}
+    });
 };
 
 export const getById = async (id: number): Promise<EmployeeOutput> => {
-    const employee = await Model.findByPk(id);
+    const employee = await Model.findOne({
+        where: {
+            employeeNumber: id
+        }, include: {all: true, nested: true}
+    });
 
     if (!employee) {
         throw new AppError("NotFoundError", "Registro não encontrado", 404);

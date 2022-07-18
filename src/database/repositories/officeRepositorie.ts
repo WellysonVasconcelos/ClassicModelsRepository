@@ -1,12 +1,19 @@
 import AppError from "../../utils/appError";
+import Employee from "../models/employeModel";
 import Model, { OfficeInput, OfficeOutput } from "../models/officeModel";
 
 export const getAll = async (): Promise<OfficeOutput[]> => {
-    return await Model.findAll();
+    return await Model.findAll({
+        include: Employee
+    });
 };
 
 export const getById = async (id: number): Promise<OfficeOutput> => {
-    const office = await Model.findByPk(id);
+    const office = await Model.findOne({
+        where: {
+            officeCode: id
+        }, include: Employee
+    });
 
     if (!office) {
         throw new AppError("NotFoundError", "Registro não encontrado", 404);
